@@ -1,3 +1,8 @@
+// -----------------------------------------------------------------------------
+// This file is part of an AI-assisted/generated mod for Airport Baggage Simulator.
+// Developed with the assistance of Antigravity, an agentic AI coding assistant.
+// -----------------------------------------------------------------------------
+
 using System;
 using BepInEx;
 using HarmonyLib;

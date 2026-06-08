@@ -1,3 +1,8 @@
+// -----------------------------------------------------------------------------
+// This file is part of an AI-assisted/generated mod for Airport Baggage Simulator.
+// Developed with the assistance of Antigravity, an agentic AI coding assistant.
+// -----------------------------------------------------------------------------
+
 using System.Collections.Generic;
 using _scripts._by_scene._game._automation;
 using _scripts._by_scene._game._automation._automat_direction_provider;

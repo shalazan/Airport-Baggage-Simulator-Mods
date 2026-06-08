@@ -40,3 +40,8 @@ dotnet build BaggageTagAnyMod
 ```
 
 ---
+
+## AI Attribution & Code Generation Notice
+
+This repository contains source code that was generated and designed with the assistance of **Antigravity**, an agentic AI coding assistant designed by Google DeepMind.
+
