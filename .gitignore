@@ -1,0 +1,20 @@
+# Build outputs
+bin/
+obj/
+/releases/
+/dist/
+
+# User configurations
+*.user
+Directory.Build.props.user
+
+# IDEs
+.vs/
+.idea/
+.vscode/
+*.suo
+*.userprefs
+
+# Temporary files & Scratch
+/scratch/
+/Program.cs

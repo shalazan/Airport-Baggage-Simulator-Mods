@@ -1,0 +1,9 @@
+<Project>
+  <!-- Import custom user settings if they exist (should be ignored by git) -->
+  <Import Project="$(MSBuildThisFileDirectory)Directory.Build.props.user" Condition="Exists('$(MSBuildThisFileDirectory)Directory.Build.props.user')" />
+
+  <PropertyGroup>
+    <!-- Fallback GameDir if not defined by the user locally -->
+    <GameDir Condition="'$(GameDir)' == ''">C:\Program Files (x86)\Steam\steamapps\common\Airport Baggage Simulator</GameDir>
+  </PropertyGroup>
+</Project>

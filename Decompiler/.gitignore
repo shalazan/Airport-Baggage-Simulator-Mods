@@ -1,0 +1,13 @@
+# Build outputs
+bin/
+obj/
+
+# User configurations
+*.user
+*.userprefs
+
+# IDEs
+.vs/
+.idea/
+.vscode/
+*.suo
