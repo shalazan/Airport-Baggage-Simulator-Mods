@@ -27,11 +27,6 @@ Example `Directory.Build.props.user`:
 </Project>
 ```
 
-> [!NOTE]
-> `Directory.Build.props.user` is added to `.gitignore` and will never be committed to Git. This prevents leaking your local folder structures or Steam installation paths.
-
----
-
 ## Local Compilation
 
 Once configured, you can build all projects from the terminal:
