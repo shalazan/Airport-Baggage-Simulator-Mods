@@ -26,7 +26,7 @@ using Produktivkeller.SimpleCat.Interaction;
 
 namespace CounterSorterMod
 {
-    [BepInPlugin("com.morg.counter_sorter_mod", "Counter Sorter Mod", "1.0.0")]
+    [BepInPlugin("com.morg.counter_sorter_mod", "Counter Sorter Mod", "1.0.1")]
     public class CounterSorterPlugin : BaseUnityPlugin
     {
         private static CounterSorterPlugin _instance;

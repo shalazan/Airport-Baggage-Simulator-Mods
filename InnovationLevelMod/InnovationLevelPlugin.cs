@@ -12,7 +12,7 @@ using _scripts._by_scene._game._skill_dialog;
 
 namespace InnovationLevelMod
 {
-    [BepInPlugin("com.morg.innovation_level_mod", "Innovation Level Mod", "1.0.0")]
+    [BepInPlugin("com.morg.innovation_level_mod", "Innovation Level Mod", "1.0.1")]
     public class InnovationLevelPlugin : BaseUnityPlugin
     {
         private static InnovationLevelPlugin _instance;

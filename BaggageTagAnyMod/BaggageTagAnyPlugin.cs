@@ -27,7 +27,7 @@ using Produktivkeller.SimpleAudioSolution.Access;
 
 namespace BaggageTagAnyMod
 {
-    [BepInPlugin("com.morg.baggage_tag_any_mod", "Baggage Tag Any Mod", "1.0.0")]
+    [BepInPlugin("com.morg.baggage_tag_any_mod", "Baggage Tag Any Mod", "1.0.1")]
     public class BaggageTagAnyPlugin : BaseUnityPlugin
     {
         private static BaggageTagAnyPlugin _instance;
