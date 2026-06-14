@@ -5,74 +5,112 @@
 
 using System;
 using System.IO;
+using System.Linq;
+using System.Text;
+using System.Collections.Generic;
+using System.Reflection;
 using ICSharpCode.Decompiler;
 using ICSharpCode.Decompiler.CSharp;
-using ICSharpCode.Decompiler.TypeSystem;
+using ICSharpCode.Decompiler.Metadata;
+using System.Reflection.Metadata;
 
 class Program
 {
     static void Main(string[] args)
     {
-        string gameDir = "";
-        // Look for Directory.Build.props.user in the workspace root relative to output path
-        string propsUserPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "Directory.Build.props.user");
-        if (File.Exists(propsUserPath))
+        string gameDir = @"C:\Program Files (x86)\Steam\steamapps\common\Airport Baggage Simulator\Airport Baggage Simulator_Data\Managed";
+        string scratchDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "..", "scratch");
+        Directory.CreateDirectory(scratchDir);
+
+        string dll = Path.Combine(gameDir, "eu.3rg.game.dll");
+        try
         {
-            var content = File.ReadAllText(propsUserPath);
-            var match = System.Text.RegularExpressions.Regex.Match(content, @"<GameDir>(.*?)</GameDir>");
-            if (match.Success)
+            var assembly = Assembly.LoadFrom(dll);
+            Console.WriteLine($"--- Loaded assembly: {assembly.FullName} ---");
+            foreach (var type in assembly.GetTypes())
             {
-                gameDir = match.Groups[1].Value.Trim();
+                string name = type.FullName.ToLower();
+                if (name.Contains("flip") || name.Contains("direction") || name.Contains("automat") || name.Contains("sorter") || name.Contains("airport"))
+                {
+                    Console.WriteLine($"Found Type: {type.FullName}");
+                }
             }
         }
-
-        if (string.IsNullOrEmpty(gameDir))
+        catch (Exception ex)
         {
-            gameDir = @"C:\Program Files (x86)\Steam\steamapps\common\Airport Baggage Simulator";
+            Console.WriteLine($"Error loading {dll}: {ex.Message}");
         }
 
-        string managedDir = Path.Combine(gameDir, "Airport Baggage Simulator_Data", "Managed");
-        string dllPath = Path.Combine(managedDir, "eu.3rg.game.dll");
-        
-        if (!File.Exists(dllPath))
+        string[] dllPaths = new[]
         {
-            Console.WriteLine($"Error: Could not find game assembly at: {dllPath}");
-            return;
-        }
-
-        string[] typesToDecompile = new[]
-        {
-            "_scripts._by_scene._game._upgrades.Upgradeable"
+            Path.Combine(gameDir, "eu.3rg.game.dll")
         };
 
-        var decompiler = new CSharpDecompiler(dllPath, new DecompilerSettings());
-        string outputPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "scratch", "decompiled_tag_sorter.txt");
-        
-        string? outputDir = Path.GetDirectoryName(outputPath);
-        if (!string.IsNullOrEmpty(outputDir) && !Directory.Exists(outputDir))
-        {
-            Directory.CreateDirectory(outputDir);
-        }
+        foreach (var dllPath in dllPaths)
 
-        using (var writer = new StreamWriter(outputPath))
         {
-            foreach (var typeName in typesToDecompile)
+            if (!File.Exists(dllPath))
             {
-                writer.WriteLine($"==========================================================================");
-                writer.WriteLine($"TYPE: {typeName}");
-                writer.WriteLine($"==========================================================================");
-                try
+                Console.WriteLine($"DLL not found: {dllPath}");
+                continue;
+            }
+
+            Console.WriteLine($"Analyzing {Path.GetFileName(dllPath)}...");
+            using (var fileStream = new FileStream(dllPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+            {
+                var peFile = new PEFile(dllPath, fileStream);
+                var metadata = peFile.Metadata;
+                var decompiler = new CSharpDecompiler(dllPath, new DecompilerSettings());
+
+                var matchingTypes = new List<TypeDefinitionHandle>();
+                foreach (var typeHandle in metadata.TypeDefinitions)
                 {
-                    string code = decompiler.DecompileTypeAsString(new FullTypeName(typeName));
-                    writer.WriteLine(code);
+                    var type = metadata.GetTypeDefinition(typeHandle);
+                    string name = metadata.GetString(type.Name);
+                    string ns = metadata.GetString(type.Namespace);
+                    string fullName = string.IsNullOrEmpty(ns) ? name : $"{ns}.{name}";
+
+                    bool matches = true;
+
+                    if (matches)
+                    {
+                        matchingTypes.Add(typeHandle);
+                    }
                 }
-                catch (Exception ex)
+
+                Console.WriteLine($"Found {matchingTypes.Count} matching types. Decompiling them to scratch folder...");
+                string dllScratch = Path.Combine(scratchDir, Path.GetFileNameWithoutExtension(dllPath));
+                Directory.CreateDirectory(dllScratch);
+
+                foreach (var typeHandle in matchingTypes)
                 {
-                    writer.WriteLine($"Error decompiling type {typeName}: {ex.Message}");
+                    var type = metadata.GetTypeDefinition(typeHandle);
+                    string name = metadata.GetString(type.Name);
+                    string ns = metadata.GetString(type.Namespace);
+                    string fullName = string.IsNullOrEmpty(ns) ? name : $"{ns}.{name}";
+
+                    // Escape invalid characters in file name
+                    string safeName = fullName.Replace('`', '_').Replace('/', '_').Replace('\\', '_')
+                                              .Replace("<", "_").Replace(">", "_")
+                                              .Replace(":", "_").Replace("*", "_")
+                                              .Replace("?", "_").Replace("|", "_")
+                                              .Replace("\"", "_");
+                    string outPath = Path.Combine(dllScratch, $"{safeName}.cs");
+
+                    try
+                    {
+                        string code = decompiler.DecompileAsString(typeHandle);
+                        File.WriteAllText(outPath, code);
+                    }
+                    catch (Exception ex)
+                    {
+                        File.WriteAllText(outPath, $"// Decompilation failed: {ex.Message}\n{ex.StackTrace}");
+                    }
                 }
-                writer.WriteLine("\n\n");
             }
         }
-        Console.WriteLine($"Decompilation completed! Results written to: {outputPath}");
+
+        Console.WriteLine("Done! Check files in scratch directory.");
     }
 }
+

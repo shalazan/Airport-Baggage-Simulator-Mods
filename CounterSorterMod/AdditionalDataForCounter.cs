@@ -123,6 +123,11 @@ namespace CounterSorterMod
             }
         }
 
+        public void ApplyForBuildingPreview(string additionalData)
+        {
+            ApplyFromSaveGame(additionalData);
+        }
+
         [Serializable]
         public class CounterSaveData
         {

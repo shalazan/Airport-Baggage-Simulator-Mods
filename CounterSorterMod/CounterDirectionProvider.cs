@@ -18,7 +18,7 @@ using Produktivkeller.SimpleCat.Interaction;
 
 namespace CounterSorterMod
 {
-    public class CounterDirectionProvider : MonoBehaviour, IAutomatDirectionProvider
+    public class CounterDirectionProvider : AutomatDirectionProviderForTwoOutputs
     {
         [SerializeField]
         public List<TMP_Text> displayTexts = new List<TMP_Text>();
@@ -64,6 +64,7 @@ namespace CounterSorterMod
 
                 if (interactable.gameObject.name == "Button_IncrementLimit")
                 {
+                    interactable.gameObject.SetActive(true);
                     onInteract.RemoveAllListeners();
                     ClearPersistentListeners(onInteract);
                     onInteract.AddListener(IncrementLimit);
@@ -77,6 +78,7 @@ namespace CounterSorterMod
                 }
                 else if (interactable.gameObject.name == "Button_Reset")
                 {
+                    interactable.gameObject.SetActive(true);
                     onInteract.RemoveAllListeners();
                     ClearPersistentListeners(onInteract);
                     onInteract.AddListener(ResetCounter);
@@ -135,24 +137,13 @@ namespace CounterSorterMod
             }
         }
 
-        public AutomatDirection DetermineOutDirection(Flip flip, ICanBeProcessedByAutomat canBeProcessedByAutomat)
+        protected override bool IsForMainOutput(Baggage baggage)
         {
-            if (!(canBeProcessedByAutomat is Baggage))
-            {
-                return AutomatDirection.Back;
-            }
-
             _currentCount++;
             UpdateDisplay();
 
-            // If count is less than or equal to the limit, route to the side (Left/Right depending on flip)
-            if (_currentCount <= _targetCountLimit)
-            {
-                return (flip.GetIndex() != 0) ? AutomatDirection.Left : AutomatDirection.Right;
-            }
-
-            // Otherwise, route straight ahead (backup exit)
-            return AutomatDirection.Back;
+            // True means main/overflow output, False means invalid/sorted/count output
+            return _currentCount > _targetCountLimit;
         }
 
         // Triggered by Button 1 (Increase Limit)

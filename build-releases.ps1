@@ -6,7 +6,7 @@ $releasesDir = Join-Path $workspaceRoot "releases"
 $tempDir = Join-Path $workspaceRoot "temp_release_build"
 
 # List of mod projects to build
-$mods = @("BaggageTagAnyMod", "CounterSorterMod", "InnovationLevelMod")
+$mods = @("BaggageTagAnyMod", "CounterSorterMod", "InnovationLevelMod", "SpawningUpgradeMod", "AirportNamesMod")
 
 # Ensure clean releases directory
 if (Test-Path $releasesDir) {

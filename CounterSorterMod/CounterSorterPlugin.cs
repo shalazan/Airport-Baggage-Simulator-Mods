@@ -171,6 +171,7 @@ namespace CounterSorterMod
                 if (isButton1)
                 {
                     interactable.gameObject.name = "Button_IncrementLimit";
+                    interactable.gameObject.SetActive(true);
                     var locKeyField = typeof(Interactable).GetField("localizationKey", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
                     if (locKeyField != null)
                     {
@@ -181,6 +182,7 @@ namespace CounterSorterMod
                 else if (isButton2)
                 {
                     interactable.gameObject.name = "Button_Reset";
+                    interactable.gameObject.SetActive(true);
                     var locKeyField = typeof(Interactable).GetField("localizationKey", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
                     if (locKeyField != null)
                     {

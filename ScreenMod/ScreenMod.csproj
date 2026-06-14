@@ -1,0 +1,104 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net472</TargetFramework>
+    <AssemblyName>PlaceableScreenMod</AssemblyName>
+    <Description>Placeable Screen Mod for Airport Baggage Simulator</Description>
+    <Version>1.0.0</Version>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="BepInEx.Core" Version="5.4.21" />
+    <PackageReference Include="Lib.Harmony" Version="2.2.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="eu.3rg.game">
+      <HintPath>$(GameDir)\Airport Baggage Simulator_Data\Managed\eu.3rg.game.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Assembly-CSharp">
+      <HintPath>$(GameDir)\Airport Baggage Simulator_Data\Managed\Assembly-CSharp.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine">
+      <HintPath>$(GameDir)\Airport Baggage Simulator_Data\Managed\UnityEngine.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>$(GameDir)\Airport Baggage Simulator_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine.PhysicsModule">
+      <HintPath>$(GameDir)\Airport Baggage Simulator_Data\Managed\UnityEngine.PhysicsModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine.InputLegacyModule">
+      <HintPath>$(GameDir)\Airport Baggage Simulator_Data\Managed\UnityEngine.InputLegacyModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine.UI">
+      <HintPath>$(GameDir)\Airport Baggage Simulator_Data\Managed\UnityEngine.UI.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine.UIModule">
+      <HintPath>$(GameDir)\Airport Baggage Simulator_Data\Managed\UnityEngine.UIModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Unity.TextMeshPro">
+      <HintPath>$(GameDir)\Airport Baggage Simulator_Data\Managed\Unity.TextMeshPro.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Zenject">
+      <HintPath>$(GameDir)\Airport Baggage Simulator_Data\Managed\Zenject.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Zenject-usage">
+      <HintPath>$(GameDir)\Airport Baggage Simulator_Data\Managed\Zenject-usage.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>$(GameDir)\Airport Baggage Simulator_Data\Managed\Newtonsoft.Json.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Bewildered.Core">
+      <HintPath>$(GameDir)\Airport Baggage Simulator_Data\Managed\Bewildered.Core.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="com.produktivkeller.simple-localization">
+      <HintPath>$(GameDir)\Airport Baggage Simulator_Data\Managed\com.produktivkeller.simple-localization.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="com.produktivkeller.simple-audio-solution">
+      <HintPath>$(GameDir)\Airport Baggage Simulator_Data\Managed\com.produktivkeller.simple-audio-solution.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="com.produktivkeller.simple-save-system">
+      <HintPath>$(GameDir)\Airport Baggage Simulator_Data\Managed\com.produktivkeller.simple-save-system.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="com.produktivkeller.simple-cat">
+      <HintPath>$(GameDir)\Airport Baggage Simulator_Data\Managed\com.produktivkeller.simple-cat.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="com.produktivkeller.simple-input">
+      <HintPath>$(GameDir)\Airport Baggage Simulator_Data\Managed\com.produktivkeller.simple-input.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="com.produktivkeller.simple-ui-kit">
+      <HintPath>$(GameDir)\Airport Baggage Simulator_Data\Managed\com.produktivkeller.simple-ui-kit.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="ECM">
+      <HintPath>$(GameDir)\Airport Baggage Simulator_Data\Managed\ECM.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Outline">
+      <HintPath>$(GameDir)\Airport Baggage Simulator_Data\Managed\Outline.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+
+</Project>
