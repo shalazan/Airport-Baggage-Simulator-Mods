@@ -13,10 +13,12 @@ using _scripts._by_scene._common._balancing;
 using _scripts._by_scene._common._balancing._configuration;
 using _scripts._by_scene._game._tablet._application._airport_application;
 using _scripts._by_scene._game._quest._tutorial_quests;
+using _scripts._by_scene._game._baggage;
 using _scripts._by_scene._game._baggage._save_data;
 using _scripts._by_scene._game._baggage_receiver;
 using _scripts._by_scene._game._baggage_spawner;
 using _scripts._by_scene._game._baggage_gate;
+using _scripts._by_scene._game._automation._automat_direction_provider;
 using _scripts._by_scene._game._quest;
 using Produktivkeller.SimpleLocalization.Unity.Core;
 
@@ -248,6 +250,25 @@ namespace AirportNamesMod
         [HarmonyPatch(typeof(LocalizationService), "ResolveLocalizationKey", new Type[] { typeof(string) })]
         public static class LocalizationServicePatch
         {
+            [HarmonyPrefix]
+            public static void Prefix(ref string localizationKey)
+            {
+                if (string.IsNullOrEmpty(localizationKey)) return;
+
+                if (localizationKey.StartsWith("airport.city.", StringComparison.OrdinalIgnoreCase))
+                {
+                    var codePart = localizationKey.Substring("airport.city.".Length).ToUpperInvariant();
+                    foreach (var replacement in ActiveReplacements)
+                    {
+                        if (!string.IsNullOrEmpty(replacement.NewCode) && replacement.NewCode.Equals(codePart, StringComparison.OrdinalIgnoreCase))
+                        {
+                            localizationKey = "airport.city." + replacement.OldCode.ToLowerInvariant();
+                            break;
+                        }
+                    }
+                }
+            }
+
             [HarmonyPostfix]
             public static void Postfix(string localizationKey, ref string __result)
             {

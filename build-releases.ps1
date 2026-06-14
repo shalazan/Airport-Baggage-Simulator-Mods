@@ -6,7 +6,7 @@ $releasesDir = Join-Path $workspaceRoot "releases"
 $tempDir = Join-Path $workspaceRoot "temp_release_build"
 
 # List of mod projects to build
-$mods = @("BaggageTagAnyMod", "CounterSorterMod", "InnovationLevelMod", "SpawningUpgradeMod", "AirportNamesMod")
+$mods = @("BaggageTagAnyMod", "CounterSorterMod", "InnovationLevelMod", "SpawningUpgradeMod", "AirportNamesMod", "BallanceMod", "ScreenMod")
 
 # Ensure clean releases directory
 if (Test-Path $releasesDir) {
@@ -41,13 +41,16 @@ foreach ($mod in $mods) {
         throw "Failed to build project: $mod"
     }
 
-    # Locate compiled DLL
+    # Locate compiled DLL in output folder (using *.dll to handle differing AssemblyNames)
     $binDir = Join-Path $projectPath "bin\Release\net472"
-    $dllFile = Join-Path $binDir "$mod.dll"
+    $dllFile = $null
+    if (Test-Path $binDir) {
+        $dllFile = Get-ChildItem -Path $binDir -Filter "*.dll" | Select-Object -ExpandProperty FullName -First 1
+    }
 
-    if (-not (Test-Path $dllFile)) {
-        # Fallback check if it was compiled with standard TargetFramework net472 or standard folder structure
-        $dllFile = Get-ChildItem -Path $projectPath -Filter "$mod.dll" -Recurse | Where-Object { $_.FullName -like "*Release*" } | Select-Object -ExpandProperty FullName -First 1
+    if (-not $dllFile -or -not (Test-Path $dllFile)) {
+        # Fallback check if it was compiled elsewhere under a Release folder
+        $dllFile = Get-ChildItem -Path $projectPath -Filter "*.dll" -Recurse | Where-Object { $_.FullName -like "*Release*" } | Select-Object -ExpandProperty FullName -First 1
     }
 
     if (-not $dllFile -or -not (Test-Path $dllFile)) {
