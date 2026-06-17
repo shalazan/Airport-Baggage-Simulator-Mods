@@ -18,7 +18,7 @@ class Program
 {
     static void Main(string[] args)
     {
-        string gameDir = @"C:\Program Files (x86)\Steam\steamapps\common\Airport Baggage Simulator\Airport Baggage Simulator_Data\Managed";
+        string gameDir = @"g:\SteamLibrary\steamapps\common\Airport Baggage Simulator\Airport Baggage Simulator_Data\Managed";
         string scratchDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "..", "scratch");
         Directory.CreateDirectory(scratchDir);
 
