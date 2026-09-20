@@ -27,7 +27,7 @@ using Produktivkeller.SimpleAudioSolution.Access;
 
 namespace BaggageTagAnyMod
 {
-    [BepInPlugin("com.morg.baggage_tag_any_mod", "Baggage Tag Any Mod", "1.0.1")]
+    [BepInPlugin("com.morg.baggage_tag_any_mod", "Baggage Tag Any Mod", "1.0.2")]
     public class BaggageTagAnyPlugin : BaseUnityPlugin
     {
         private static BaggageTagAnyPlugin _instance;
@@ -194,13 +194,15 @@ namespace BaggageTagAnyMod
             }
         }
 
-        [HarmonyPatch(typeof(AutomatDirectionProviderForBaggageTag), "DetermineOutDirection")]
+        [HarmonyPatch(typeof(AutomatDirectionProviderForTwoOutputs), "DetermineOutDirection")]
         public static class DetermineOutDirectionPatch
         {
             [HarmonyPrefix]
-            public static bool Prefix(AutomatDirectionProviderForBaggageTag __instance, Flip flip, ICanBeProcessedByAutomat canBeProcessedByAutomat, ref AutomatDirection __result)
+            public static bool Prefix(AutomatDirectionProviderForTwoOutputs __instance, Flip flip, ICanBeProcessedByAutomat canBeProcessedByAutomat, ref AutomatDirection __result)
             {
-                var scannerType = __instance.GetScannerType();
+                if (!(__instance is AutomatDirectionProviderForBaggageTag baggageTagProvider)) return true;
+
+                var scannerType = baggageTagProvider.GetScannerType();
                 if (scannerType == (ScannerType)5)
                 {
                     if (!(canBeProcessedByAutomat is Baggage baggage))

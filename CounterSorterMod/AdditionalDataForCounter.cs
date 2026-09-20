@@ -31,8 +31,6 @@ namespace CounterSorterMod
         [Inject]
         private ParcelSaveManager _parcelSaveManager;
 
-        [Inject]
-        private BuildingSaveManager _buildingSaveManager;
 
         private int _lastSavedCount;
         private int _lastSavedLimit;
@@ -44,10 +42,6 @@ namespace CounterSorterMod
             {
                 _lastSavedCount = provider.GetCurrentCount();
                 _lastSavedLimit = provider.GetTargetLimit();
-                if (_buildingSaveManager != null)
-                {
-                    _buildingSaveManager.ForceAdditionalUpdateOfPersistenceData();
-                }
             }
         }
 
